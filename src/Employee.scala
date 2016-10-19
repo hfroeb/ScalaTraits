@@ -11,40 +11,48 @@ trait Employee {
 }
 
 class Manager extends Employee {
-  override val name: String = ""
+  val name: String = ""
   val title = "Mgr"
 }
 
 class Worker extends Employee {
-  override val name: String = ""
+  val name: String = ""
   val title = "Wkr"
 }
 
 object Main {
   def main(args: Array[String]): Unit = {
+
     val employees: mutable.MutableList[Employee] = mutable.MutableList[Employee]()
 
-    val bob: Employee = new Employee {
-      override val name = "Bob"
-      val title = "Bldr"
-    }
-    val charlie: Employee = new Manager {
-      override val name = "Charlie"
-    }
-    val joe: Employee = new Worker {
-      override val name = "Joe"
-    }
+    val bob = new Worker {override val name = "Bob"}
+    val charlie = new Manager {override val name = "Charlie"}
+    val joe = new Worker {override val name = "Joe"}
+
     employees += (bob, charlie, joe)
 
-    val e = mutable.HashMap[String, String]()
+    val employeeMap = mutable.HashMap[String, String]()
 
     employees.foreach(x => {
-      e += (x.name -> x.toString)
+      employeeMap += (x.name -> x.toString)
     })
 
-    e.foreach(x => {
+    employeeMap.foreach(x => {
       println(x._2 + "\n")
     })
+
+//optional
+    println("Choose a title: worker[Wkr] or manager[Mgr]")
+    val response: String = io.StdIn.readLine()
+
+    val employeesByTitle = employees.filter(x => x.title.equalsIgnoreCase(response))
+    employeesByTitle.foreach(x => {
+      println(x.toString)
+    })
+
+
+
+
 
   }
 
